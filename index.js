@@ -6,6 +6,7 @@ const io = require('socket.io')(server);
 
 const db = require('./model/db');
 const config = require('./common/config');
+const command = require('./controller/command');
 
 db.initMessageDB();
 server.listen(config.SERVICE_PORT, function() {
@@ -19,18 +20,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 let numUsers = 0;
 
-function dealCmd(socket, data) {
-    if (data === '/list people') {
-        const users = Object.values(io.sockets.sockets).
-            map(socket => socket.username);
-
-        socket.emit('new message', {
-            username: 'sys',
-            message: users
-        });
-    }
-}
-
 io.on('connection', function(socket) {
     let addedUser = false;
 
@@ -38,7 +27,7 @@ io.on('connection', function(socket) {
     socket.on('new message', function(data) {
         console.log(data);
         if (data.startsWith('/')) {
-            dealCmd(socket, data);
+            command.deal(socket, data);
             return;
         }
 
