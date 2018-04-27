@@ -1,4 +1,5 @@
 var express = require('express');
+var app = express();
 var path = require('path');
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -6,7 +7,6 @@ var io = require('socket.io')(server);
 var db = require('./model/db');
 var config = require('./common/config');
 
-var app = express();
 
 db.initMessageDB();
 server.listen(config.SERVICE_PORT, function () {
