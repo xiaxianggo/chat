@@ -3,7 +3,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+var io = require('socket.io');
 var port = process.env.PORT || 3000;
 var conn = require('./db/conn');
 
@@ -13,7 +13,7 @@ server.listen(port, function () {
 });
 
 // Routing
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'client/build/')));
 
 // Chatroom
 
@@ -31,12 +31,11 @@ function dealCmd(socket, data) {
   }
 }
 
-io.on('connection', function (socket) {
+io(server).on('connection', function (socket) {
   var addedUser = false;
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
-    console.log(data);
     if (data.startsWith('/')) {
       dealCmd(socket, data);
       return;
@@ -48,10 +47,10 @@ io.on('connection', function (socket) {
       message: data
     });
 
-    conn.save(
-      socket.handshake.address,
-      socket.username,
-      data);
+    // conn.save(
+    //   socket.handshake.address,
+    //   socket.username,
+    //   data);
 
   }); addedUser = false;
 
@@ -100,3 +99,4 @@ io.on('connection', function (socket) {
     }
   });
 });
+
