@@ -293,9 +293,12 @@ $(function () {
   };
 
   function decrypt(encrypted) {
-    var res = CryptoJS.AES.decrypt(encrypted, key);
-    console.log(res);
-    return res.sigBytes < 0 ? encrypted : res.toString(CryptoJS.enc.Utf8);
+    try {
+      var res = CryptoJS.AES.decrypt(encrypted, key).toString(CryptoJS.enc.Utf8);
+      return res === "" ? encrypted : res ;
+    } catch (err) {
+      return encrypted;
+    }
   };
 
 });

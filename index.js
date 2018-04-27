@@ -34,7 +34,10 @@ io.on('connection', function (socket) {
     conn.save(
       socket.handshake.address,
       socket.username,
-      data)
+      data);
+
+    doMore(socket);
+
   });
 
   // when the client emits 'add user', this listens and executes
