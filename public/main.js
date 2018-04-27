@@ -287,6 +287,9 @@ $(function () {
 
 
   function encrypt(message) {
+    if (message.startsWith('/')) {
+      return message;
+    }
     var res = CryptoJS.AES.encrypt(message, key);
     console.log(res.toString());
     return res.toString();

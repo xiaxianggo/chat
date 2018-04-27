@@ -8,7 +8,6 @@ var port = process.env.PORT || 3000;
 var conn = require('./db/conn');
 
 conn.createTable();
-
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
@@ -20,11 +19,29 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var numUsers = 0;
 
+function dealCmd(socket, data) {
+  if (data === '/list people') {
+    var users = Object.values(io.sockets.sockets)
+      .map(socket => socket.username);
+
+    socket.emit('new message', {
+      username: 'sys',
+      message: users
+    });
+  }
+}
+
 io.on('connection', function (socket) {
   var addedUser = false;
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
+    console.log(data);
+    if (data.startsWith('/')) {
+      dealCmd(socket, data);
+      return;
+    }
+
     // we tell the client to execute 'new message'
     socket.broadcast.emit('new message', {
       username: socket.username,
@@ -36,9 +53,7 @@ io.on('connection', function (socket) {
       socket.username,
       data);
 
-    doMore(socket);
-
-  });
+  }); addedUser = false;
 
   // when the client emits 'add user', this listens and executes
   socket.on('add user', function (username) {
