@@ -1,9 +1,9 @@
-var mysql = require('mysql');
-var moment = require('moment');
+const mysql = require('mysql');
+const moment = require('moment');
 
-var config = require('../common/config');
+const config = require('../common/config');
 
-var conn = mysql.createConnection({
+const conn = mysql.createConnection({
     host: config.DB_HOST,
     user: config.DB_USER,
     password: config.DB_PASS
@@ -11,16 +11,19 @@ var conn = mysql.createConnection({
 
 module.exports = {
     'initMessageDB': () => {
-        conn.query(`CREATE DATABASE IF NOT EXISTS ${config.DB_DATABASE}`, (err) => {
-            if (err) throw err;
-            conn.query(`USE ${config.DB_DATABASE}`, (err) => {
+        conn.query(`CREATE DATABASE IF NOT EXISTS ${config.DB_DATABASE}`,
+            (err) => {
                 if (err) throw err;
-                conn.query('CREATE TABLE IF NOT EXISTS MESSAGES (IP VARCHAR(30), NAME VARCHAR(20), MSG TEXT, AT TIMESTAMP)', (err) => {
+                conn.query(`USE ${config.DB_DATABASE}`, (err) => {
                     if (err) throw err;
-                    console.log('MessageDB inited');
+                    conn.query(
+                        'CREATE TABLE IF NOT EXISTS MESSAGES (IP VARCHAR(30), NAME VARCHAR(20), MSG TEXT, AT TIMESTAMP)',
+                        (err) => {
+                            if (err) throw err;
+                            console.log('MessageDB inited');
+                        });
                 });
             });
-        });
     },
 
     'save': (ip, name, msg) => {
@@ -28,7 +31,7 @@ module.exports = {
             ip: ip,
             name: name,
             msg: msg,
-            at: moment().format("YYYY-MM-DD HH:mm:ss")
+            at: moment().format('YYYY-MM-DD HH:mm:ss')
         };
         console.log(data);
         conn.query('INSERT INTO MESSAGES set ?', data, (err, result) => {
