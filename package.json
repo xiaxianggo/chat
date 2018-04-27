@@ -8,6 +8,8 @@
   "license": "BSD",
   "dependencies": {
     "express": "4.13.4",
+    "moment": "^2.22.1",
+    "mysql": "^2.15.0",
     "path": "^0.12.7",
     "socket.io": "^2.1.0"
   },

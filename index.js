@@ -5,6 +5,9 @@ var path = require('path');
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 3000;
+var conn = require('./db/conn');
+
+conn.createTable();
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -27,6 +30,11 @@ io.on('connection', function (socket) {
       username: socket.username,
       message: data
     });
+
+    conn.save(
+      socket.handshake.address,
+      socket.username,
+      data)
   });
 
   // when the client emits 'add user', this listens and executes
