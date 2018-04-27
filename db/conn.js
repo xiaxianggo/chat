@@ -11,9 +11,9 @@ var conn = mysql.createConnection({
 module.exports = {
 
     'createTable': () => {
-        var sql = 'CREATE TABLE IF NOT EXISTS MESSAGES (IP VARCHAR(20), NAME VARCHAR(20), MSG TEXT, AT TIMESTAMP)';
+        var sql = 'CREATE TABLE IF NOT EXISTS MESSAGES (IP VARCHAR(30), NAME VARCHAR(20), MSG TEXT, AT TIMESTAMP)';
         conn.query(sql, (err, result) => {
-            if (err) throw err;
+            if (err) console.error(err);
             console.log('Table created');
         });
     },
@@ -27,7 +27,7 @@ module.exports = {
         };
         console.log(data);
         conn.query('INSERT INTO MESSAGES set ?', data, (err, result) => {
-            if (err) throw err;
+            if (err) console.error(err);
             console.log('Message saved');
         });
     }
