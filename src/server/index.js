@@ -1,9 +1,6 @@
 const express = require('express');
 const path = require('path');
-
-const server = require('./app').server;
-const app = require('./app').app;
-const io = require('./app').io;
+const { app, server, io } = require('./app');
 const db = require('./db');
 const config = require('./config');
 const command = require('./command');
@@ -14,7 +11,7 @@ server.listen(config.SERVICE_PORT, function() {
 });
 
 // Routing
-app.use(express.static(path.join(__dirname, '../../public')));
+app.use(express.static(path.join(__dirname, '../../public/')));
 
 // Chatroom
 

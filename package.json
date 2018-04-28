@@ -7,14 +7,16 @@
   "private": true,
   "license": "BSD",
   "dependencies": {
+    "browserify": "^16.2.0",
     "express": "4.13.4",
     "moment": "^2.22.1",
     "mysql": "^2.15.0",
     "path": "^0.12.7",
-    "socket.io": "^2.1.0"
+    "socket.io": "^2.1.0",
+    "supervisor": "^0.12.0"
   },
   "scripts": {
-    "start": "npm run build && node ./src/server/index.js",
-    "build": "browserify ./src/client/index.js -o ./public/main.js"
+    "start": "npm run build && supervisor src/server/index.js",
+    "build": "browserify ./src/client/index.js -o ./public/index.js"
   }
 }

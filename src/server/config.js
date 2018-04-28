@@ -4,5 +4,5 @@ module.exports = {
     'DB_USER': process.env.DB_USER || 'root',
     'DB_PASS': process.env.DB_PASS || '',
     'DB_DATABASE': process.env.DB_DATABASE || '',
-    'SERVICE_PORT': process.env.SERVICE_PORT || 3000
+    'SERVICE_PORT': process.env.PORT || 3000
 };
