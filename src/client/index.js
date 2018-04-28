@@ -1,5 +1,18 @@
 const command = require('./command');
 
+function wrapHTML(text) {
+    const source = (text || '').toString();
+    let matchArray;
+    const regexToken = /(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)|((mailto:)?[_.\w-]+@([\w][\w\-]+\.)+[a-zA-Z]{2,3})/g;
+
+    while ((matchArray = regexToken.exec(source)) !== null) {
+        text = text.replace(matchArray[0],
+            `<a target="_blank" href="${matchArray[0]}">${matchArray[0]}</a>`);
+    }
+
+    return text;
+}
+
 $(function() {
     const FADE_TIME = 150; // ms
     const TYPING_TIMER_LENGTH = 400; // ms
@@ -101,7 +114,7 @@ $(function() {
                 attr('src', command.getPic(data.message));
         } else {
             $messageBodyDiv = $('<span class="messageBody">').
-                text(data.message);
+                html(wrapHTML(data.message));
         }
 
         const typingClass = data.typing ? 'typing' : '';
@@ -168,7 +181,7 @@ $(function() {
 
     // Prevents input from having injected markup
     function cleanInput(input) {
-        return $('<div/>').text(input).html();
+        return $('<div/>').text(input).text();
     }
 
     // Updates the typing event
