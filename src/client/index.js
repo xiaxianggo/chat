@@ -1,4 +1,4 @@
-const command = require('../controller/command');
+const command = require('./command');
 
 $(function() {
     const FADE_TIME = 150; // ms

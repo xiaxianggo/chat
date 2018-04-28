@@ -1,12 +1,12 @@
 const express = require('express');
-const app = express();
 const path = require('path');
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
 
-const db = require('./model/db');
-const config = require('./common/config');
-const command = require('./controller/command');
+const server = require('./app').server;
+const app = require('./app').app;
+const io = require('./app').io;
+const db = require('./db');
+const config = require('./config');
+const command = require('./command');
 
 db.initMessageDB();
 server.listen(config.SERVICE_PORT, function() {
@@ -14,7 +14,7 @@ server.listen(config.SERVICE_PORT, function() {
 });
 
 // Routing
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../../public')));
 
 // Chatroom
 

@@ -1,3 +1,5 @@
+const io = require('./app').io;
+
 module.exports = {
     'deal': (socket, data) => {
         data = data.trim();
@@ -14,14 +16,4 @@ module.exports = {
             }
         }
     },
-    'isPic': (data) => {
-        return data.startsWith('#pic');
-    },
-    'getPic': (data) => {
-        const pics = data.split('#pic');
-        return pics.length > 0 ? pics[1].trim() : '';
-    },
-    'isAssign': (data) => {
-        return data.startsWith('@');
-    }
 };
