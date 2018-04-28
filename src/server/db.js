@@ -5,6 +5,7 @@ const config = require('./config');
 
 const conn = mysql.createConnection({
     host: config.DB_HOST,
+    port: config.DB_PORT,
     user: config.DB_USER,
     password: config.DB_PASS
 });
