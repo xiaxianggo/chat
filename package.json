@@ -15,6 +15,7 @@
     "socket.io-client": "^2.1.0"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "npm run build && node index.js",
+    "build": "browserify ./src/client/index.js -o ./public/main.js"
   }
 }
