@@ -11,7 +11,7 @@ server.listen(config.SERVICE_PORT, function() {
 });
 
 // Routing
-app.use(express.static(path.join(__dirname, '../client/')));
+app.use(express.static(path.join(__dirname, '../../public/')));
 
 // Chatroom
 
