@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const moment = require('moment');
 
-const config = require('../common/config');
+const config = require('./config');
 
 const conn = mysql.createConnection({
     host: config.DB_HOST,

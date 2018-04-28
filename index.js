@@ -4,8 +4,8 @@ const path = require('path');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
-const db = require('./model/db');
-const config = require('./common/config');
+const db = require('./src/server/db');
+const config = require('./src/server/config');
 
 db.initMessageDB();
 server.listen(config.SERVICE_PORT, function() {
