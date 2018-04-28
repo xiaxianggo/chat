@@ -1,11 +1,12 @@
 const express = require('express');
-const app = express();
 const path = require('path');
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
 
-const db = require('./src/server/db');
-const config = require('./src/server/config');
+const server = require('./app').server;
+const app = require('./app').app;
+const io = require('./app').io;
+const db = require('./db');
+const config = require('./config');
+const command = require('./command');
 
 db.initMessageDB();
 server.listen(config.SERVICE_PORT, function() {
@@ -13,23 +14,11 @@ server.listen(config.SERVICE_PORT, function() {
 });
 
 // Routing
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../../public')));
 
 // Chatroom
 
 let numUsers = 0;
-
-function dealCmd(socket, data) {
-    if (data === '/list people') {
-        const users = Object.values(io.sockets.sockets).
-            map(socket => socket.username);
-
-        socket.emit('new message', {
-            username: 'sys',
-            message: users
-        });
-    }
-}
 
 io.on('connection', function(socket) {
     let addedUser = false;
@@ -38,7 +27,7 @@ io.on('connection', function(socket) {
     socket.on('new message', function(data) {
         console.log(data);
         if (data.startsWith('/')) {
-            dealCmd(socket, data);
+            command.deal(socket, data);
             return;
         }
 
