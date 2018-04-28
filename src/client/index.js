@@ -111,6 +111,14 @@ $(function() {
             append($usernameDiv, $messageBodyDiv);
 
         addMessageElement($messageDiv, options);
+
+        if (data.username !== username &&
+            command.isAssign(data.message, username)) {
+            Notification.requestPermission(function(status) {
+                const n = new Notification(data.username, {body: data.message});
+                console.log('status', status, 'Notification', n);
+            });
+        }
     }
 
     // Adds the visual chat typing message

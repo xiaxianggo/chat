@@ -37,11 +37,7 @@ io.on('connection', function(socket) {
             message: data
         });
 
-        db.save(
-            socket.handshake.address,
-            socket.username,
-            data);
-
+        db.save(socket.handshake.address, socket.username, data);
     });
     addedUser = false;
 
