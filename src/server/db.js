@@ -28,8 +28,9 @@ module.exports = {
             ip: ip,
             name: name,
             msg: msg,
-            at: moment().zone(+8).format('YYYY-MM-DD HH:mm:ss')
+            at: moment().utcOffset(+8).format('YYYY-MM-DD HH:mm:ss')
         };
+        console.log(data.at);
         conn.query('INSERT INTO MESSAGES set ?', data,
             (err, result) => console.log(err || 'Message saved'));
     }

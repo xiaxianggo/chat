@@ -16,6 +16,6 @@
   },
   "scripts": {
     "start": "npm run build && supervisor src/server/index.js",
-    "build": "browserify ./src/client/index.js"
+    "build": "browserify ./src/client/index.js -o ./src/client/out/browserify_index.js"
   }
 }
